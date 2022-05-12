@@ -42,7 +42,7 @@ class route():
                 corrected_dict["communities"] = attr["communities"]
             if attr["type"] == 14:
                 corrected_dict["next_hop"] = attr["nexthop"]
-        #Dropping the attrs list from the dict because the useful information has already been extracted
+        #Dropping the attrs list from the dict because the useful information has already been extracted and added as dictionary items
         corrected_dict.pop("attrs")
         return cls(**corrected_dict)
         
@@ -54,8 +54,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     with open(args.filename) as jsonFile:
         routes = json.loads(jsonFile.read())
+        routeObjects = []
         for rt in routes:
             Route = route.from_json(rt)
+            routeObjects.append(Route)
+        for Route in routeObjects:
             print(f"Prefix {Route.prefix}")
             print(f"\tLocal Pref:  {Route.local_pref}")
             print(f"\tNext Hop:    {Route.next_hop}")
