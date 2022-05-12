@@ -45,6 +45,15 @@ class route():
         #Dropping the attrs list from the dict because the useful information has already been extracted and added as dictionary items
         corrected_dict.pop("attrs")
         return cls(**corrected_dict)
+
+    def printRouteAttributes(self):
+            print(f"Prefix {self.prefix}")
+            print(f"\tLocal Pref:  {self.local_pref}")
+            print(f"\tNext Hop:    {self.next_hop}")
+            print(f"\tRoute Age:   {self.age}")
+            print(f"\tBest Route?: {self.best}")
+            print(f"\tCommunities: {self.communities}")
+            print()
         
 
 
@@ -59,10 +68,4 @@ if __name__ == '__main__':
             Route = route.from_json(rt)
             routeObjects.append(Route)
         for Route in routeObjects:
-            print(f"Prefix {Route.prefix}")
-            print(f"\tLocal Pref:  {Route.local_pref}")
-            print(f"\tNext Hop:    {Route.next_hop}")
-            print(f"\tRoute Age:   {Route.age}")
-            print(f"\tBest Route?: {Route.best}")
-            print(f"\tCommunities: {Route.communities}")
-            print()
+            Route.printRouteAttributes()
