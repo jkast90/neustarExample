@@ -61,6 +61,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-filename', help='Please give me the filename of json from the route output', required=True)
     args = parser.parse_args()
+    #Used context manager on the file so that it closes automatically after it is done being used
     with open(args.filename) as jsonFile:
         routes = json.loads(jsonFile.read())
         routeObjects = []
