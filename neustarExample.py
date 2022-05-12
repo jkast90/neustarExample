@@ -29,9 +29,12 @@ class route():
 
     @classmethod
     def from_json(cls, json_dict):
+        #Needed to replace the keys that had -'s in them because the the __init__ class names were not matching and Python cannot use -'s in variable names
         corrected_dict = { k.replace('-', '_'): v for k, v in json_dict.items() }
+        #Needed to add the "best" key if it was missing otherwise the init class was complaining about a missing key
         if "best" not in corrected_dict.keys():
             corrected_dict["best"] = False
+        #Converted the types to make it easier to read in the output
         for attr in corrected_dict["attrs"]:
             if attr["type"] == 5:
                 corrected_dict["local_pref"] = attr["value"]
@@ -39,6 +42,7 @@ class route():
                 corrected_dict["communities"] = attr["communities"]
             if attr["type"] == 14:
                 corrected_dict["next_hop"] = attr["nexthop"]
+        #Dropping the attrs list from the dict because the useful information has already been extracted
         corrected_dict.pop("attrs")
         return cls(**corrected_dict)
         
