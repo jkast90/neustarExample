@@ -69,8 +69,8 @@ class route():
             print(f"\tNext Hop:    {self.next_hop}")
             print(f"\tRoute Age:   {self.age}")
             print(f"\tBest Route?: {self.best}")
-            print(f"\tString Communities: {self.communities.strings()}")
-            print(f"\tInteger Communities: {self.communities.integers()}")
+            print(f"\tString Communities: {self.communities.asStrings()}")
+            print(f"\tInteger Communities: {self.communities.asIntegers()}")
             print()
         
 
