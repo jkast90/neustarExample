@@ -14,6 +14,23 @@
 
 import argparse, json
 
+class bgpCommunities():
+    def __init__(self, communities):
+        self.communities = communities
+
+    def asStrings(self):
+        strings = []
+        for string in self.communities:
+            strings.append(str(string))
+        return strings
+
+    def asIntegers(self):
+        integers = []
+        for integer in self.communities:
+            integers.append(int(integer))
+        return integers
+        
+
 class route():
     '''This class is used to hold route information'''
     def __init__(self, nlri, age, stale, source_id, neighbor_ip, best, local_pref, communities, next_hop):
@@ -24,7 +41,7 @@ class route():
         self.source_ip = source_id
         self.neighbor_ip = neighbor_ip
         self.local_pref = local_pref
-        self.communities = communities
+        self.communities = bgpCommunities(communities)
         self.next_hop = next_hop
 
     @classmethod
@@ -52,7 +69,8 @@ class route():
             print(f"\tNext Hop:    {self.next_hop}")
             print(f"\tRoute Age:   {self.age}")
             print(f"\tBest Route?: {self.best}")
-            print(f"\tCommunities: {self.communities}")
+            print(f"\tString Communities: {self.communities.strings()}")
+            print(f"\tInteger Communities: {self.communities.integers()}")
             print()
         
 
