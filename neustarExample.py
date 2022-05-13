@@ -14,22 +14,16 @@
 
 import argparse, json
 
-class bgpCommunities():
-    '''This class is used to hold bgp communites and can return them as strings or integers by using the asStrings or asIntegers methods'''
-    def __init__(self, communities):
-        self.communities = communities
+class bgpCommunity():
+    '''This class is used to hold bgp communites and can return them as strings or integers using the overloaded int and str methods'''
+    def __init__(self, community):
+        self.community = community
 
-    def asStrings(self):
-        strings = []
-        for string in self.communities:
-            strings.append(str(string))
-        return strings
-
-    def asIntegers(self):
-        integers = []
-        for integer in self.communities:
-            integers.append(int(integer))
-        return integers
+    def __str__(self):
+        return str(self.community)
+        
+    def __int__(self):
+        return int(self.community)
         
 class route():
     '''This class is used to hold route information'''
@@ -41,7 +35,10 @@ class route():
         self.source_ip = source_id
         self.neighbor_ip = neighbor_ip
         self.local_pref = local_pref
-        self.communities = bgpCommunities(communities)
+        bgpCommunities = []
+        for community in communities:
+            bgpCommunities.append(bgpCommunity(community))
+        self.communities = bgpCommunities
         self.next_hop = next_hop
 
     @classmethod
@@ -69,10 +66,12 @@ class route():
             print(f"\tNext Hop:               {self.next_hop}")
             print(f"\tRoute Age:              {self.age}")
             print(f"\tBest Route?:            {self.best}")
-            print(f"\tString Communities:     {self.communities.asStrings()}")
-            print(f"\tString community type:  {type(self.communities.asStrings()[0])}")
-            print(f"\tInteger Communities:    {self.communities.asIntegers()}")
-            print(f"\tInteger community type: {type(self.communities.asIntegers()[0])}")
+            print(f"\tInteger Communities")
+            for comm in self.communities:
+                print(f"\t\t            {int(comm)}")
+            print(f"\tString Communities")
+            for comm in self.communities:
+                print(f"\t\t            {str(comm)}")                
             print()
         
 if __name__ == '__main__':
