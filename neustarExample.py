@@ -8,13 +8,14 @@
     neighbor_ip - STRING
     best - BOOLEAN
     local_pref - DICT which has the type 5 (INT) attribute then reads the "value" of that (STRING)
-    communities - DICT which has the type 8 (INT) attribute then reads the "communities" of that (list of INT)
+    communities - DICT which has the type 8 (INT) attribute then reads the "communities" of that (can be list of INT or STRING)
     next_hop  - DICT which has the type 14 (INT) attribute then reads the "nexthop" of that (STRING)
     """
 
 import argparse, json
 
 class bgpCommunities():
+    '''This class is used to hold bgp communites and can return them as strings or integers by using the asStrings or asIntegers methods'''
     def __init__(self, communities):
         self.communities = communities
 
@@ -30,7 +31,6 @@ class bgpCommunities():
             integers.append(int(integer))
         return integers
         
-
 class route():
     '''This class is used to hold route information'''
     def __init__(self, nlri, age, stale, source_id, neighbor_ip, best, local_pref, communities, next_hop):
@@ -46,9 +46,9 @@ class route():
 
     @classmethod
     def from_json(cls, json_dict):
-        #Needed to replace the keys that had -'s in them because the the __init__ class names were not matching and Python cannot use -'s in variable names
+        #Needed to replace the keys that had -'s in them because the the __init__ method names were not matching and Python cannot use -'s in variable names
         corrected_dict = { k.replace('-', '_'): v for k, v in json_dict.items() }
-        #Needed to add the "best" key if it was missing otherwise the init class was complaining about a missing key
+        #Needed to add the "best" key if it was missing otherwise the init method was complaining about a missing key
         if "best" not in corrected_dict.keys():
             corrected_dict["best"] = False
         #Converted the types to make it easier to read in the output
@@ -75,18 +75,16 @@ class route():
             print(f"\tInteger community type: {type(self.communities.asIntegers()[0])}")
             print()
         
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('-filename', help='Please give me the filename of json from the route output', required=True)
     args = parser.parse_args()
+    routeObjects = []
     #Used context manager on the file so that it closes automatically after it is done being used
     with open(args.filename) as jsonFile:
         routes = json.loads(jsonFile.read())
-        routeObjects = []
         for rt in routes:
             Route = route.from_json(rt)
             routeObjects.append(Route)
-        for Route in routeObjects:
-            Route.printRouteAttributes()
+    for Route in routeObjects:
+        Route.printRouteAttributes()
