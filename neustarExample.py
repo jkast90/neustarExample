@@ -65,12 +65,14 @@ class route():
 
     def printRouteAttributes(self):
             print(f"Prefix {self.prefix}")
-            print(f"\tLocal Pref:  {self.local_pref}")
-            print(f"\tNext Hop:    {self.next_hop}")
-            print(f"\tRoute Age:   {self.age}")
-            print(f"\tBest Route?: {self.best}")
-            print(f"\tString Communities: {self.communities.asStrings()}")
-            print(f"\tInteger Communities: {self.communities.asIntegers()}")
+            print(f"\tLocal Pref:             {self.local_pref}")
+            print(f"\tNext Hop:               {self.next_hop}")
+            print(f"\tRoute Age:              {self.age}")
+            print(f"\tBest Route?:            {self.best}")
+            print(f"\tString Communities:     {self.communities.asStrings()}")
+            print(f"\tString community type:  {type(self.communities.asStrings()[0])}")
+            print(f"\tInteger Communities:    {self.communities.asIntegers()}")
+            print(f"\tInteger community type: {type(self.communities.asIntegers()[0])}")
             print()
         
 
